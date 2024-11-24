@@ -44,6 +44,7 @@ class ItemViewModel(private val itemRepository: ItemRepository) : ViewModel() {
                 uiState = _uiState.Success(items)
             } catch (e: Exception) {
                 uiState = _uiState.Error
+                Log.e("ItemViewModel", "Error getting items: ${e.message}")
             }
         }
     }
@@ -86,7 +87,7 @@ class ItemViewModel(private val itemRepository: ItemRepository) : ViewModel() {
                 }
             }catch (e: Exception) {
                 uiState = _uiState.Error
-                Log.e("DriverViewModel", "Error deleting driver: ${e.message}")
+                Log.e("ItemViewModel", "Error deleting item: ${e.message}")
             }
         }
     }

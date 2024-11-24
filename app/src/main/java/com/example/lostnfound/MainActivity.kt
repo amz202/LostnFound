@@ -11,20 +11,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
+import com.example.lostnfound.ui.ItemViewModel
+import com.example.lostnfound.ui.screens.HomeScreen
 import com.example.lostnfound.ui.theme.LostnFoundTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        lateinit var viewModel: ItemViewModel
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this, ItemViewModel.Factory).get(ItemViewModel::class.java)
+
         enableEdgeToEdge()
         setContent {
             LostnFoundTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                HomeScreen(uiState = viewModel.uiState, viewModel = viewModel )
             }
         }
     }

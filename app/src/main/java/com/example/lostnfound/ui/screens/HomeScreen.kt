@@ -11,14 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.lostnfound.R
 import com.example.lostnfound.ui.ItemViewModel
 import com.example.lostnfound.ui._uiState
 
 @Composable
-fun HomeScreen(uiState:_uiState, viewModel: ItemViewModel) {
+fun HomeScreen(uiState:_uiState, viewModel: ItemViewModel, navHostController: NavHostController) {
     when(uiState){
-        is _uiState.Success -> ListScreen(viewModel = viewModel, itemList = uiState.items)
+        is _uiState.Success -> ListScreen(viewModel = viewModel, itemList = uiState.items, navController = navHostController)
         is _uiState.Loading -> LoadingScreen()
         is _uiState.Error -> ErrorScreen()
     }

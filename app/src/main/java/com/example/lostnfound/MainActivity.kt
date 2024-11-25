@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
 import com.example.lostnfound.ui.ItemViewModel
+import com.example.lostnfound.ui.navigation.NavScreen
 import com.example.lostnfound.ui.screens.HomeScreen
 import com.example.lostnfound.ui.theme.LostnFoundTheme
 
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LostnFoundTheme {
-                HomeScreen(uiState = viewModel.uiState, viewModel = viewModel )
+                NavScreen(uiState = viewModel.uiState, viewModel = viewModel )
             }
         }
     }

@@ -85,4 +85,7 @@ dependencies {
     // ViewModel utilities for Compose
     implementation(libs.androidx.lifecycle.viewmodel.compose.v262)
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.navigation.compose)
+
 }

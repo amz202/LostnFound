@@ -33,10 +33,17 @@ fun NavScreen(uiState: _uiState, viewModel: ItemViewModel) {
                 name = args.name,
                 onClick = { navController.popBackStack() })
         }
-        composable<AddItemC> {
+        composable<CategoryScreenC> {
+            com.example.lostnfound.ui.screens.dialog.CategoryScreen(
+                navController = navController
+            )
+        }
+        composable<AddItemD> {
+            val args = it.toRoute<AddItemD>()
             com.example.lostnfound.ui.screens.dialog.AddItem(
                 viewModel = viewModel,
-                navController = navController
+                navController = navController,
+                category = args.category
             )
         }
     }

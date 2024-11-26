@@ -34,16 +34,17 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.lostnfound.network.request.ItemRequest
 import com.example.lostnfound.ui.ItemViewModel
+import com.example.lostnfound.ui.navigation.HomeScreenA
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddItem(
     modifier: Modifier = Modifier,
     viewModel: ItemViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    category: String
 ) {
     var name by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf("") }
     var foundAt by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
 
@@ -53,7 +54,7 @@ fun AddItem(
         topBar = {
             TopAppBar(title = {
                 Text(
-                    text = "Add Item",
+                    text = "Add $category",
                     modifier = Modifier.fillMaxWidth()
                 )
             }, navigationIcon = {
@@ -85,16 +86,6 @@ fun AddItem(
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 TextField(
-                    value = category,
-                    onValueChange = { category = it },
-                    label = { Text("Category") },
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        capitalization = KeyboardCapitalization.Words
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(24.dp))
-                TextField(
                     value = description,
                     onValueChange = { description = it },
                     label = { Text("Description") },
@@ -116,7 +107,7 @@ fun AddItem(
                             description = description
                         )
                         viewModel.createItem(newItem)
-                        navController.popBackStack()
+                        navController.navigate(HomeScreenA)
                     },
                     modifier = Modifier.align(Alignment.End)
                 ) {

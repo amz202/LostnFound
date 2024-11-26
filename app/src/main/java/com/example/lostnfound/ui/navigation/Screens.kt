@@ -9,4 +9,7 @@ object HomeScreenA
 data class ItemScreenB(val name: String, val category: String, val foundAt: String, val description: String)
 
 @Serializable
-object AddItemC
+object CategoryScreenC
+
+@Serializable
+data class AddItemD(val category: String)

@@ -34,7 +34,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.lostnfound.network.request.ItemRequest
 import com.example.lostnfound.ui.ItemViewModel
-import com.example.lostnfound.ui.navigation.AddItemC
+import com.example.lostnfound.ui.navigation.AddItemD
+import com.example.lostnfound.ui.navigation.CategoryScreenC
 import com.example.lostnfound.ui.navigation.ItemScreenB
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +51,7 @@ fun ListScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate(AddItemC) },
+                onClick = { navController.navigate(CategoryScreenC) },
                 modifier = Modifier
                     .padding(16.dp)
             ) {

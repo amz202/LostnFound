@@ -89,7 +89,8 @@ fun ListScreen(
                                 name = itemRequest.name,
                                 category = itemRequest.category,
                                 foundAt = itemRequest.foundAt,
-                                description = itemRequest.description
+                                description = itemRequest.description,
+                                place = itemRequest.place
                             )
                         )
                     }
@@ -130,7 +131,7 @@ fun ListItem(
                     modifier=Modifier.padding(start = 4.dp, end = 4.dp, top = 8.dp, bottom = 8.dp)
                 ) {
                     InfoRow(type = "Category", info = itemRequest.category)
-                    Spacer(modifier = Modifier.padding(2.dp))
+                    InfoRow(type = "Place", info = itemRequest.place)
                     Text(
                         text = timeAgo(itemRequest.foundAt),
                         )
@@ -160,5 +161,6 @@ fun InfoRow(type:String,info:String){
     Row {
         Text(text = "$type:", modifier = Modifier.padding(end = 8.dp))
         Text(text = info)
+        Spacer(modifier = Modifier.padding(2.dp))
     }
 }

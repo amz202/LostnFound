@@ -31,6 +31,7 @@ fun NavScreen(uiState: _uiState, viewModel: ItemViewModel) {
                 description = args.description,
                 foundAt = args.foundAt,
                 name = args.name,
+                place = args.place,
                 onClick = { navController.popBackStack() })
         }
         composable<CategoryScreenC> {
@@ -41,9 +42,20 @@ fun NavScreen(uiState: _uiState, viewModel: ItemViewModel) {
         composable<AddItemD> {
             val args = it.toRoute<AddItemD>()
             com.example.lostnfound.ui.screens.dialog.AddItem(
-                viewModel = viewModel,
                 navController = navController,
                 category = args.category
+            )
+        }
+        composable<PropertyScreenE> {
+            val args = it.toRoute<PropertyScreenE>()
+            com.example.lostnfound.ui.screens.dialog.PropertyScreen(
+                name = args.name,
+                category = args.category,
+                description = args.description,
+                foundAt = args.foundAt,
+                place = args.place,
+                viewModel = viewModel,
+                navController = navController
             )
         }
     }

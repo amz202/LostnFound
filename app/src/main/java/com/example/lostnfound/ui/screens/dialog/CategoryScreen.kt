@@ -48,7 +48,7 @@ fun CategoryScreen(modifier: Modifier = Modifier, navController: NavHostControll
         }
     ) { paddingValues ->
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(16.dp),

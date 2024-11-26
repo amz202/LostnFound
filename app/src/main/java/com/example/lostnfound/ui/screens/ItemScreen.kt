@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ItemScreen(name: String, category: String, foundAt: String, description: String, onClick : () -> Unit) {
+fun ItemScreen(name: String, category: String, foundAt: String, description: String, place: String, onClick : () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(title = {

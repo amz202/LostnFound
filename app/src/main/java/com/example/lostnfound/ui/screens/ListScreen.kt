@@ -1,6 +1,9 @@
 package com.example.lostnfound.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,7 +40,10 @@ import com.example.lostnfound.ui.ItemViewModel
 import com.example.lostnfound.ui.navigation.AddItemD
 import com.example.lostnfound.ui.navigation.CategoryScreenC
 import com.example.lostnfound.ui.navigation.ItemScreenB
+import java.time.Instant
+import kotlin.time.Duration
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(
@@ -95,6 +101,7 @@ fun ListScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ListItem(
     itemRequest: ItemRequest,
@@ -108,31 +115,50 @@ fun ListItem(
             .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp)
             .clickable { onClick1() }
     ) {
-        Row {
+        Row(
+            modifier=Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 4.dp)
+        ) {
             Column(
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
+                    .padding(8.dp)
+                    .weight(1f)
             ) {
                 Text(
                     text = itemRequest.name,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
                 )
-                Text(
-                    text = itemRequest.category,
-                    fontSize = 16.sp
-                )
-                Text(
-                    text = itemRequest.description,
-                    fontSize = 16.sp
-                )
-                Text(
-                    text = itemRequest.foundAt,
-                    fontSize = 16.sp
-                )
+                Column(
+                    modifier=Modifier.padding(start = 4.dp, end = 4.dp, top = 8.dp, bottom = 8.dp)
+                ) {
+                    InfoRow(type = "Category", info = itemRequest.category)
+                    Spacer(modifier = Modifier.padding(2.dp))
+                    Text(
+                        text = timeAgo(itemRequest.foundAt),
+                        )
+                }
             }
             IconButton(onClick = onClick_Del) {
                 Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete")
             }
         }
+    }
+}
+@RequiresApi(Build.VERSION_CODES.O)
+fun timeAgo(foundAt: String): String {
+    val instant = Instant.parse(foundAt)
+    val now = Instant.now()
+    val duration = java.time.Duration.between(instant, now)
+
+    return when {
+        duration.toMinutes() < 60 -> "${duration.toMinutes()} minutes ago"
+        duration.toHours() < 24 -> "${duration.toHours()} hours ago"
+        duration.toDays() < 7 -> "${duration.toDays()} days ago"
+        else -> "${duration.toDays() / 7} weeks ago"
+    }
+}
+@Composable
+fun InfoRow(type:String,info:String){
+    Row {
+        Text(text = "$type:", modifier = Modifier.padding(end = 8.dp))
+        Text(text = info)
     }
 }

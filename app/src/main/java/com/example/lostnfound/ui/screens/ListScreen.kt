@@ -2,6 +2,10 @@ package com.example.lostnfound.ui.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,7 +19,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -26,6 +33,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -93,7 +105,7 @@ fun ListScreen(
                                 place = itemRequest.place
                             )
                         )
-                    }
+                    },
                 )
             }
         }
@@ -108,8 +120,11 @@ fun ListItem(
     itemRequest: ItemRequest,
     modifier: Modifier = Modifier,
     onClick1: () -> Unit = {},
-    onClick_Del: () -> Unit = {}
+    onClick_Del: () -> Unit = {},
 ) {
+    var expanded by remember {
+        mutableStateOf(false)
+    }
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -127,14 +142,32 @@ fun ListItem(
                 Text(
                     text = itemRequest.name,
                 )
-                Column(
-                    modifier=Modifier.padding(start = 4.dp, end = 4.dp, top = 8.dp, bottom = 8.dp)
-                ) {
-                    InfoRow(type = "Category", info = itemRequest.category)
-                    InfoRow(type = "Place", info = itemRequest.place)
-                    Text(
-                        text = timeAgo(itemRequest.foundAt),
-                        )
+                AnimatedVisibility(visible = expanded) {
+                    Column(
+                        modifier= Modifier
+                            .padding(start = 4.dp, end = 4.dp, top = 8.dp, bottom = 8.dp)
+                            .animateContentSize(animationSpec = tween(300))
+                    ) {
+                        InfoRow(type = "Category", info = itemRequest.category)
+                        InfoRow(type = "Place", info = itemRequest.place)
+                        Text(
+                            text = timeAgo(itemRequest.foundAt),
+                            )
+                    }
+                }
+            }
+            IconButton(onClick = {
+                if (expanded) {
+                    expanded = false
+                } else {
+                    expanded = true
+                }
+            }
+            ) {
+                if (expanded) {
+                    Icon(Icons.Filled.KeyboardArrowUp, contentDescription = "Expand")
+                } else {
+                    Icon(Icons.Filled.KeyboardArrowDown, contentDescription = "Collapse")
                 }
             }
             IconButton(onClick = onClick_Del) {
@@ -161,6 +194,5 @@ fun InfoRow(type:String,info:String){
     Row {
         Text(text = "$type:", modifier = Modifier.padding(end = 8.dp))
         Text(text = info)
-        Spacer(modifier = Modifier.padding(2.dp))
     }
 }

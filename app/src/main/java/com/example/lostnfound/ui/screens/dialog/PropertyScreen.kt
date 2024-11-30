@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -128,7 +129,8 @@ fun PropertyField(property1: String, onValueChange: (String) -> Unit, label:Stri
             onValueChange = onValueChange,
             label = { Text(label) },
             keyboardOptions = KeyboardOptions.Default.copy(
-                capitalization = KeyboardCapitalization.Words
+                capitalization = KeyboardCapitalization.Words,
+                imeAction = ImeAction.Next
             ),
             modifier = Modifier.fillMaxWidth()
         )

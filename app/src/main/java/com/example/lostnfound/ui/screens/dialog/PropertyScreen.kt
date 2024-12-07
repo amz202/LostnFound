@@ -130,7 +130,7 @@ fun PropertyField(property1: String, onValueChange: (String) -> Unit, label:Stri
             label = { Text(label) },
             keyboardOptions = KeyboardOptions.Default.copy(
                 capitalization = KeyboardCapitalization.Words,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Done
             ),
             modifier = Modifier.fillMaxWidth()
         )

@@ -1,8 +1,10 @@
 package com.example.lostnfound.network
 
 import com.example.lostnfound.network.request.ItemRequest
+import com.example.lostnfound.network.response.ClaimResponse
 import com.example.lostnfound.network.response.ItemResponse
 import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -21,4 +23,7 @@ interface ApiService {
 
     @DELETE("delete-item")
     suspend fun deleteItem(@Query("name") name: String?): ResponseBody
+
+    @POST("claim-item")
+    suspend fun claimItem(@Body claim: ClaimResponse): Boolean
 }

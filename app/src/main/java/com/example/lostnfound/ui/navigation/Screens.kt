@@ -28,3 +28,14 @@ data class PropertyScreenE(
     val foundAt: String,
     val place:String
 )
+
+@Serializable
+data class ClaimScreenF(
+    val category: String,
+    val name: String,
+)
+
+@Serializable
+data class ClaimConfirmG(
+    val name:String
+)

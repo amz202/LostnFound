@@ -58,6 +58,25 @@ fun NavScreen(uiState: _uiState, viewModel: ItemViewModel) {
                 navController = navController
             )
         }
+
+        composable<ClaimScreenF> {
+            val args = it.toRoute<ClaimScreenF>()
+            com.example.lostnfound.ui.screens.dialog.ClaimScreen(
+                viewModel = viewModel,
+                category = args.category,
+                navController = navController,
+                name = args.name
+            )
+        }
+
+        composable<ClaimConfirmG> {
+            val args = it.toRoute<ClaimConfirmG>()
+            com.example.lostnfound.ui.screens.dialog.ClaimConfirm(
+                name = args.name,
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
     }
 }
 

@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.lostnfound.ItemApplication
 import com.example.lostnfound.data.ItemRepository
+import com.example.lostnfound.network.response.ClaimResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,6 +33,9 @@ class ItemViewModel(private val itemRepository: ItemRepository) : ViewModel() {
     private val _itemName = MutableStateFlow("")
     val itemName:StateFlow<String> = _itemName.asStateFlow()
 
+    private val _itemApproved = MutableStateFlow(false)
+    val itemApproved:StateFlow<Boolean> = _itemApproved.asStateFlow()
+
     init {
         getItems()
     }
@@ -42,6 +46,7 @@ class ItemViewModel(private val itemRepository: ItemRepository) : ViewModel() {
             try {
                 val items = itemRepository.getItems()
                 uiState = _uiState.Success(items)
+                _itemApproved.value = false
             } catch (e: Exception) {
                 uiState = _uiState.Error
                 Log.e("ItemViewModel", "Error getting items: ${e.message}")
@@ -92,6 +97,24 @@ class ItemViewModel(private val itemRepository: ItemRepository) : ViewModel() {
         }
     }
 
+    fun claimItem(claim: ClaimResponse) {
+        viewModelScope.launch {
+            uiState = _uiState.Loading
+            try {
+                val isClaimed = itemRepository.claimItem(claim)
+                if (isClaimed) {
+                    _itemApproved.value = true
+                    uiState = _uiState.Success(emptyList())
+                } else {
+                    _itemApproved.value = false
+                    Log.e("ItemViewModel", "Error claiming item: Item not found")
+                }
+            } catch (e: Exception) {
+                uiState = _uiState.Error
+                Log.e("ItemViewModel", "Error claiming item: ${e.message}")
+            }
+        }
+    }
     companion object{
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

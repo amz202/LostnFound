@@ -51,6 +51,7 @@ import com.example.lostnfound.network.request.ItemRequest
 import com.example.lostnfound.ui.ItemViewModel
 import com.example.lostnfound.ui.navigation.AddItemD
 import com.example.lostnfound.ui.navigation.CategoryScreenC
+import com.example.lostnfound.ui.navigation.ClaimScreenF
 import com.example.lostnfound.ui.navigation.ItemScreenB
 import java.time.Instant
 import kotlin.time.Duration
@@ -94,7 +95,13 @@ fun ListScreen(
             items(itemList) { itemRequest ->
                 ListItem(
                     itemRequest = itemRequest,
-                    onClick_Del = { viewModel.deleteItem(itemRequest.name) },
+                    onClick_Clm = { navController.navigate(
+                        ClaimScreenF(
+                            category = itemRequest.category,
+                            name = itemRequest.name
+                        )
+                    ) },
+//                  onClick_Del = { viewModel.deleteItem(itemRequest.name) },
                     onClick1 = {
                         navController.navigate(
                             ItemScreenB(
@@ -120,7 +127,7 @@ fun ListItem(
     itemRequest: ItemRequest,
     modifier: Modifier = Modifier,
     onClick1: () -> Unit = {},
-    onClick_Del: () -> Unit = {},
+    onClick_Clm: () -> Unit = {},
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -170,7 +177,7 @@ fun ListItem(
                     Icon(Icons.Filled.KeyboardArrowDown, contentDescription = "Collapse")
                 }
             }
-            IconButton(onClick = onClick_Del) {
+            IconButton(onClick = onClick_Clm) {
                 Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete")
             }
         }

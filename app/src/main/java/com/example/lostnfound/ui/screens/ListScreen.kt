@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -34,6 +35,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -73,6 +75,13 @@ fun ListScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val colorScheme = MaterialTheme.colorScheme
     val isDarkTheme = isSystemInDarkTheme()
+    var searchQuery by remember { mutableStateOf("") }
+    var searchVisibile by remember {
+        mutableStateOf(false)
+    }
+    val filteredItems = itemList.filter {
+        it.name.contains(searchQuery, ignoreCase = true)
+    }
 
     Scaffold(
         floatingActionButton = {
@@ -87,7 +96,7 @@ fun ListScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Lost N Found",
+                        text = "     Lost N Found",
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth(),
                         color = Color.White,
@@ -96,44 +105,70 @@ fun ListScreen(
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = if (isDarkTheme) colorScheme.secondaryContainer else colorScheme.primary
-                )
+                ),
+                actions = {
+                    IconButton(
+                        onClick = { searchVisibile = !searchVisibile },
+                    ) {
+                        Icon(imageVector = Icons.Default.Search, contentDescription = "Add Item",
+                            tint = Color.White)
+                    }
+                }
             )
         },
         modifier = Modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { paddingValues ->
-        LazyColumn(modifier = modifier.padding(paddingValues)) {
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-            items(itemList) { itemRequest ->
-                ListItem(
-                    itemRequest = itemRequest,
-                    onClick_Clm = {
-                        navController.navigate(
-                            ClaimScreenF(
-                                category = itemRequest.category,
-                                name = itemRequest.name
-                            )
-                        )
-                    },
-                    onClick1 = {
-                        navController.navigate(
-                            ItemScreenB(
-                                name = itemRequest.name,
-                                category = itemRequest.category,
-                                foundAt = itemRequest.foundAt,
-                                description = itemRequest.description,
-                                place = itemRequest.place
-                            )
-                        )
-                    },
+        Column(modifier = modifier.padding(paddingValues)) {
+            androidx.compose.animation.AnimatedVisibility(visible = searchVisibile) {
+                TextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    label = { Text("Search by Name") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 4.dp),
+                    singleLine = true,
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
+                    }
                 )
+            }
+
+            LazyColumn(modifier = modifier) {
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                items(filteredItems) { itemRequest ->
+                    ListItem(
+                        itemRequest = itemRequest,
+                        onClick_Clm = {
+                            navController.navigate(
+                                ClaimScreenF(
+                                    category = itemRequest.category,
+                                    name = itemRequest.name
+                                )
+                            )
+                        },
+                        onClick1 = {
+                            navController.navigate(
+                                ItemScreenB(
+                                    name = itemRequest.name,
+                                    category = itemRequest.category,
+                                    foundAt = itemRequest.foundAt,
+                                    description = itemRequest.description,
+                                    place = itemRequest.place
+                                )
+                            )
+                        },
+                    )
+                }
             }
         }
     }
 }
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

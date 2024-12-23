@@ -1,5 +1,7 @@
 package com.example.lostnfound.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,7 @@ import com.example.lostnfound.R
 import com.example.lostnfound.ui.ItemViewModel
 import com.example.lostnfound.ui._uiState
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(uiState:_uiState, viewModel: ItemViewModel, navHostController: NavHostController) {
     when(uiState){

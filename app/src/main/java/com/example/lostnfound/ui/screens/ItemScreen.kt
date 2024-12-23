@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -26,7 +27,7 @@ fun ItemScreen(name: String, category: String, foundAt: String, description: Str
         topBar = {
             TopAppBar(title = {
                 Text(
-                    text = name,
+                    text = name, style = MaterialTheme.typography.headlineLarge,
                     modifier = Modifier.fillMaxWidth()
                 )
             }, navigationIcon = {
@@ -52,8 +53,8 @@ fun ItemScreen(name: String, category: String, foundAt: String, description: Str
 fun ItemDetail(title:String,info:String){
     Column {
         Row {
-            Text(text = "$title:", modifier = Modifier.padding(end = 8.dp))
-            Text(text = info)
+            Text(text = "$title:", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(end = 8.dp))
+            Text(text = info, style = MaterialTheme.typography.bodyLarge)
         }
         Spacer(modifier = Modifier.padding(8.dp))
     }

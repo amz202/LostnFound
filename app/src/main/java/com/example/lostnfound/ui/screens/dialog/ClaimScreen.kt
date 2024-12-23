@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -56,7 +57,7 @@ fun ClaimScreen(
             TopAppBar(title = {
                 Text(
                     text = "Claim Item",
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.headlineLarge
                 )
             }, navigationIcon = {
                 IconButton(onClick = {
@@ -171,7 +172,7 @@ fun ClaimConfirm(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (approved) {
-                Text("Want to claim this item?")
+                Text("Want to claim this item?", style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.height(48.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -201,7 +202,7 @@ fun ClaimConfirm(
                     }
                 }
             }else{
-                Text("Invalid Claim")
+                Text("Invalid Claim", style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.height(48.dp))
                 Button(
                     onClick = {

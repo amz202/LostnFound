@@ -90,7 +90,8 @@ fun ListScreen(
                         text = "Lost N Found",
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth(),
-                        color = Color.White
+                        color = Color.White,
+                        style = MaterialTheme.typography.titleLarge
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -109,12 +110,14 @@ fun ListScreen(
             items(itemList) { itemRequest ->
                 ListItem(
                     itemRequest = itemRequest,
-                    onClick_Clm = { navController.navigate(
-                        ClaimScreenF(
-                            category = itemRequest.category,
-                            name = itemRequest.name
+                    onClick_Clm = {
+                        navController.navigate(
+                            ClaimScreenF(
+                                category = itemRequest.category,
+                                name = itemRequest.name
+                            )
                         )
-                    ) },
+                    },
                     onClick1 = {
                         navController.navigate(
                             ItemScreenB(
@@ -150,7 +153,7 @@ fun ListItem(
             .clickable { onClick1() }
     ) {
         Row(
-            modifier=Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 4.dp)
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 4.dp)
         ) {
             Column(
                 modifier = Modifier
@@ -159,18 +162,22 @@ fun ListItem(
             ) {
                 Text(
                     text = itemRequest.name,
+                    style = MaterialTheme.typography.headlineMedium
                 )
                 AnimatedVisibility(visible = expanded) {
                     Column(
-                        modifier= Modifier
+                        modifier = Modifier
                             .padding(start = 4.dp, end = 4.dp, top = 8.dp, bottom = 8.dp)
                             .animateContentSize(animationSpec = tween(300))
                     ) {
                         InfoRow(type = "Category", info = itemRequest.category)
                         InfoRow(type = "Place", info = itemRequest.place)
+                        Spacer(modifier = Modifier.padding(4.dp))
                         Text(
                             text = timeAgo(itemRequest.foundAt),
-                            )
+                            style = MaterialTheme.typography.bodyMedium
+
+                        )
                     }
                 }
             }
@@ -194,6 +201,7 @@ fun ListItem(
         }
     }
 }
+
 @RequiresApi(Build.VERSION_CODES.O)
 fun timeAgo(foundAt: String): String {
     val instant = Instant.parse(foundAt)
@@ -207,10 +215,20 @@ fun timeAgo(foundAt: String): String {
         else -> "${duration.toDays() / 7} weeks ago"
     }
 }
+
 @Composable
-fun InfoRow(type:String,info:String){
-    Row {
-        Text(text = "$type:", modifier = Modifier.padding(end = 8.dp))
-        Text(text = info)
+fun InfoRow(type: String, info: String) {
+    Column {
+        Spacer(modifier = Modifier.padding(2.dp))
+
+        Row {
+            Text(
+                text = "$type:",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(end = 8.dp)
+            )
+            Text(text = info, style = MaterialTheme.typography.bodyMedium)
+        }
+        Spacer(modifier = Modifier.padding(2.dp))
     }
 }
